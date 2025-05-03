@@ -1,0 +1,60 @@
+﻿@page "/dashboardSelger"
+@inject NavigationManager Navigation
+
+<h3 class="mb-4">Velkommen, selger!</h3>
+
+<div class="row g-4">
+
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-person-circle fs-1 text-secondary"></i>
+                <h5 class="card-title mt-2">Rediger profil</h5>
+                <p class="card-text">Oppdater dine personlige opplysninger og kontoinnstillinger.</p>
+                <button class="btn btn-outline-secondary" @onclick="@(() => Navigation.NavigateTo("/redigerProfil"))">
+                    Rediger profil
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-box-seam fs-1 text-primary"></i>
+                <h5 class="card-title mt-2">Mine bestillinger</h5>
+                <p class="card-text">Se og administrer bekreftede bestillinger.</p>
+                <button class="btn btn-outline-primary" @onclick="@(() => Navigation.NavigateTo("/mine-bestillinger-selger"))">
+                    Gå til bestillinger
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-inbox fs-1 text-warning"></i>
+                <h5 class="card-title mt-2">Nye forespørsler</h5>
+                <p class="card-text">Se og bekreft nye bestillinger.</p>
+                <button class="btn btn-outline-warning" @onclick="@(() => Navigation.NavigateTo("/selger-bestillinger"))">
+                    Se forespørsler
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-chat-dots fs-1 text-success"></i>
+                <h5 class="card-title mt-2">Chat</h5>
+                <p class="card-text">Kommuniser med kjøpere i sanntid.</p>
+                <button class="btn btn-outline-success" @onclick="@(() => Navigation.NavigateTo("/chat"))">
+                    Åpne chat
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9lSsOlzuDvM=",
+  "dgSpecHash": "GqG0pMVw2/w=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareAPI\\TaxFreeShareAPI.csproj",
+  "projectFilePath": "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareAPI\\TaxFreeShareAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Matul\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\Matul\\.nuget\\packages\\blazored.localstorage\\4.5.0\\blazored.localstorage.4.5.0.nupkg.sha512",

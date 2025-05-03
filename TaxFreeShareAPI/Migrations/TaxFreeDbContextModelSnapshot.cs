@@ -33,6 +33,9 @@ namespace TaxFreeShareAPI.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<int?>("SellerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .HasColumnType("longtext");
 
@@ -52,7 +55,7 @@ namespace TaxFreeShareAPI.Migrations
                         new
                         {
                             Id = 1,
-                            OrderDate = new DateTime(2025, 3, 17, 8, 54, 15, 446, DateTimeKind.Utc).AddTicks(9456),
+                            OrderDate = new DateTime(2025, 5, 3, 17, 38, 41, 380, DateTimeKind.Utc).AddTicks(4032),
                             Status = "Completed",
                             TotalAmount = 49.99m,
                             UserId = 1
@@ -125,7 +128,7 @@ namespace TaxFreeShareAPI.Migrations
                             Id = 1,
                             Brand = "Lindt",
                             Category = "Chocolate",
-                            CreatedAt = new DateTime(2025, 3, 17, 8, 54, 15, 446, DateTimeKind.Utc).AddTicks(9307),
+                            CreatedAt = new DateTime(2025, 5, 3, 17, 38, 41, 380, DateTimeKind.Utc).AddTicks(3872),
                             Name = "Lindt Milk Chocolate",
                             Price = 49.99m
                         },
@@ -134,7 +137,7 @@ namespace TaxFreeShareAPI.Migrations
                             Id = 2,
                             Brand = "Dior",
                             Category = "Perfume",
-                            CreatedAt = new DateTime(2025, 3, 17, 8, 54, 15, 446, DateTimeKind.Utc).AddTicks(9313),
+                            CreatedAt = new DateTime(2025, 5, 3, 17, 38, 41, 380, DateTimeKind.Utc).AddTicks(3878),
                             Name = "Dior Sauvage",
                             Price = 1199.99m
                         });
@@ -221,7 +224,7 @@ namespace TaxFreeShareAPI.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 3, 17, 8, 54, 15, 446, DateTimeKind.Utc).AddTicks(9439),
+                            CreatedAt = new DateTime(2025, 5, 3, 17, 38, 41, 380, DateTimeKind.Utc).AddTicks(4013),
                             Email = "admin@taxfreeshare.com",
                             IsVerified = false,
                             Name = "Admin",

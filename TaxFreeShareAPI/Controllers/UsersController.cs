@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -219,4 +220,46 @@ public class UsersController : ControllerBase
         _logger.LogInformation($"Passord tilbakestilt for bruker {user.Email}");
         return Ok("Passordet ditt er tilbakestilt!");
     }
+    
+    [HttpGet("me")]
+    [Authorize]
+    public async Task<ActionResult<UserDto>> GetCurrentUser()
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out var id))
+            return Unauthorized("Ugyldig bruker.");
+
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
+            return NotFound("Bruker ikke funnet.");
+
+        return Ok(new UserDto
+        {
+            Id = user.Id,
+            Email = user.Email,
+            Name = user.Name,
+            Role = user.Role,
+            IsVerified = user.IsVerified
+        });
+    }
+    [HttpPut("update")]
+    [Authorize]
+    public async Task<IActionResult> UpdateUserProfile([FromBody] UserDto userDto)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out var id))
+            return Unauthorized("Ugyldig bruker.");
+
+        var user = await _context.Users.FindAsync(id);
+        if (user == null)
+            return NotFound("Bruker ikke funnet.");
+
+        user.Name = userDto.Name;
+        await _context.SaveChangesAsync();
+
+        return Ok("Profilen er oppdatert.");
+    }
+
 }

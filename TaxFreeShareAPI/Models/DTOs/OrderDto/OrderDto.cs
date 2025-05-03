@@ -8,5 +8,7 @@ public class OrderDto
     public string Status { get; set; } = "Pending";
     public decimal TotalAmount { get; set; }
     public List<UpdateOrderItemDto> OrderItems { get; set; } = new();
+    
+    public int? SellerId { get; set; }
 
 }

@@ -1,158 +1,60 @@
 ﻿@page "/dashboardKjøper"
-@using Blazored.LocalStorage
-@using TaxFreeShareFrontend3.Services
-@using TaxFreeShareFrontend3.Models.DTO
-@inject ILocalStorageService LocalStorage
-@inject UserService UserService
-@inject ProductService ProductService
-@inject OrderService OrderService
+@inject NavigationManager Navigation
 
-<PageTitle>Dashboard for kjøpere</PageTitle>
+<h3 class="mb-4">Velkommen, kjøper!</h3>
 
-<div class="d-flex">
-    <!-- Sidebar -->
-    <div class="bg-dark text-white p-4" style="width: 250px; min-height: 100vh;">
-        <h4 class="fw-bold mb-4">TaxFreeShare</h4>
-        <ul class="nav flex-column">
-            <li class="nav-item mb-2">
-                <a class="nav-link text-white" href="dashboardKjøper">Oversikt</a>
-            </li>
-            <li class="nav-item mb-2">
-                <a class="nav-link text-white" href="mine-bestillinger">Mine bestillinger</a>
-            </li>
-        </ul>
-    </div>
+<div class="row g-4">
 
-    <!-- Main Content -->
-    <main class="flex-grow-1 p-5">
-        <h2 class="fw-bold">Hei, @UserName!</h2>
-
-        @if (!string.IsNullOrEmpty(ErrorMessage))
-        {
-            <div class="alert alert-danger mt-3">@ErrorMessage</div>
-        }
-        @if (!string.IsNullOrEmpty(SuccessMessage))
-        {
-            <div class="alert alert-success mt-3">@SuccessMessage</div>
-        }
-
-        <div class="alert alert-info d-flex align-items-center mt-3" role="alert">
-            <i class="bi bi-bell me-2"></i>
-            Du har 2 nye meldinger
-        </div>
-
-        <div class="mt-4">
-            <h4 class="mb-3">Mine bestillinger</h4>
-
-            <!-- Bestillingsliste kan implementeres her -->
-
-            <!-- Legg til ny bestilling -->
-            <div class="mt-4">
-                <button class="btn btn-primary w-100" @onclick="OpenModal">Legg til ny bestilling</button>
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-box-seam fs-1 text-primary"></i>
+                <h5 class="card-title mt-2">Mine bestillinger</h5>
+                <p class="card-text">Se og administrer dine nåværende og tidligere bestillinger.</p>
+                <button class="btn btn-outline-primary" @onclick="@(() => Navigation.NavigateTo("/mine-bestillingerKjøper"))">
+                    Gå til bestillinger
+                </button>
             </div>
         </div>
-    </main>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-chat-dots fs-1 text-success"></i>
+                <h5 class="card-title mt-2">Chat</h5>
+                <p class="card-text">Kommuniser med selgere du har sendt bestilling til.</p>
+                <button class="btn btn-outline-success" @onclick="@(() => Navigation.NavigateTo("/chat"))">
+                    Åpne chat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-person-circle fs-1 text-secondary"></i>
+                <h5 class="card-title mt-2">Rediger profil</h5>
+                <p class="card-text">Oppdater dine personlige opplysninger og kontoinnstillinger.</p>
+                <button class="btn btn-outline-secondary" @onclick="@(() => Navigation.NavigateTo("/redigerProfil"))">
+                    Rediger profil
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-lg-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-plus-circle fs-1 text-info"></i>
+                <h5 class="card-title mt-2">Ny bestilling</h5>
+                <p class="card-text">Legg til en ny bestilling fra taxfree-produktene du ønsker.</p>
+                <button class="btn btn-outline-info" @onclick="@(() => Navigation.NavigateTo("/ny-bestilling"))">
+                    Ny bestilling
+                </button>
+            </div>
+        </div>
+    </div>
+
 </div>
-
-<!-- Dialogboks -->
-@if (ShowModal)
-{
-    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Ny bestilling</h5>
-                    <button type="button" class="btn-close" @onclick="CloseModal"></button>
-                </div>
-                <div class="modal-body">
-                    <label for="productSelect">Velg et produkt:</label>
-                    <select id="productSelect" class="form-select" @bind="SelectedProductId">
-                        <option value="">-- Velg --</option>
-                        @foreach (var product in Products)
-                        {
-                            <option value="@product.Id">@product.Name (@product.Brand)</option>
-                        }
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" @onclick="CloseModal">Avbryt</button>
-                    <button class="btn btn-primary" @onclick="SubmitOrder">Bestill</button>
-                </div>
-            </div>
-        </div>
-    </div>
-}
-
-@code {
-    private string UserName = "";
-    private bool ShowModal = false;
-    private List<ProductDto> Products = new();
-    private int? SelectedProductId;
-    private string ErrorMessage = "";
-    private string SuccessMessage = "";
-
-    protected override async Task OnInitializedAsync()
-    {
-        var userIdString = await LocalStorage.GetItemAsync<string>("userId");
-        if (int.TryParse(userIdString, out var userId))
-        {
-            var user = await UserService.GetUserByIdAsync(userId);
-            if (user is not null)
-            {
-                UserName = user.Name;
-            }
-        }
-
-        Products = await ProductService.GetProductsAsync();
-    }
-
-    private void OpenModal()
-    {
-        ShowModal = true;
-        ErrorMessage = "";
-        SuccessMessage = "";
-    }
-
-    private void CloseModal()
-    {
-        ShowModal = false;
-        SelectedProductId = null;
-    }
-
-    private async Task SubmitOrder()
-    {
-        ErrorMessage = "";
-        SuccessMessage = "";
-
-        if (SelectedProductId is not null)
-        {
-            var order = new CreateOrderDto
-            {
-                OrderItems = new List<OrderItemDto>
-                {
-                    new OrderItemDto
-                    {
-                        ProductId = SelectedProductId.Value,
-                        Quantity = 1
-                    }
-                }
-            };
-
-            var success = await OrderService.CreateOrderAsync(order);
-
-            if (success)
-            {
-                SuccessMessage = "Bestillingen ble sendt!";
-                CloseModal();
-            }
-            else
-            {
-                ErrorMessage = "Noe gikk galt ved sending av bestilling.";
-            }
-        }
-        else
-        {
-            ErrorMessage = "Du må velge et produkt.";
-        }
-    }
-}

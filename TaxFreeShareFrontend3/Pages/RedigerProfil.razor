@@ -1,0 +1,79 @@
+﻿@page "/redigerProfil"
+@using TaxFreeShareFrontend3.Models.DTO
+@using TaxFreeShareFrontend3.Services
+@inject UserService UserService
+@inject NavigationManager Navigation
+
+<h3>Rediger Profil</h3>
+
+@if (IsLoading)
+{
+    <p>Laster inn profil...</p>
+}
+else if (ErrorMessage != null)
+{
+    <div class="alert alert-danger">@ErrorMessage</div>
+}
+else
+{
+    <EditForm Model="User" OnValidSubmit="OppdaterProfil">
+        <div class="mb-3">
+            <label for="name" class="form-label">Navn:</label>
+            <InputText id="name" class="form-control" @bind-Value="User.Name" />
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">E-post:</label>
+            <InputText id="email" class="form-control" Value="User.Email" disabled />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Lagre endringer</button>
+
+        @if (!string.IsNullOrEmpty(SuccessMessage))
+        {
+            <div class="alert alert-success mt-3">@SuccessMessage</div>
+        }
+    </EditForm>
+}
+
+@code {
+    private UserDto User = new();
+    private bool IsLoading = true;
+    private string? ErrorMessage;
+    private string? SuccessMessage;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            var bruker = await UserService.GetCurrentUserAsync();
+            if (bruker != null)
+            {
+                User = bruker;
+            }
+            else
+            {
+                ErrorMessage = "Kunne ikke hente brukerdata (er du innlogget?)";
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"Feil under lasting av profil: {ex.Message}";
+        }
+
+        IsLoading = false;
+    }
+
+    private async Task OppdaterProfil()
+    {
+        var success = await UserService.UpdateUserAsync(User);
+        if (success)
+        {
+            SuccessMessage = "Profilen er oppdatert!";
+        }
+        else
+        {
+            ErrorMessage = "Noe gikk galt ved oppdatering av profil.";
+        }
+    }
+}

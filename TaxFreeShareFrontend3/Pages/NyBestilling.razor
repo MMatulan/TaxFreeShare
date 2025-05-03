@@ -1,0 +1,75 @@
+﻿@page "/ny-bestilling"
+@using TaxFreeShareFrontend3.Models.DTO
+@using TaxFreeShareFrontend3.Services
+@inject ProductService ProductService
+@inject OrderService OrderService
+@inject NavigationManager Navigation
+
+<h3>Ny Bestilling</h3>
+
+@if (Produkter == null)
+{
+    <p>Laster produkter...</p>
+}
+else
+{
+    <div class="mb-3">
+        <label for="produktSelect" class="form-label">Velg et produkt:</label>
+        <select class="form-select" @bind="ValgtProduktId">
+            <option value="">-- Velg produkt --</option>
+            @foreach (var produkt in Produkter)
+            {
+                <option value="@produkt.Id">@produkt.Name (@produkt.Brand)</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label for="quantity" class="form-label">Antall:</label>
+        <InputNumber @bind-Value="Quantity" class="form-control" min="1" />
+    </div>
+
+    <button class="btn btn-primary" @onclick="SendInnBestilling">Bestill</button>
+}
+
+@code {
+    private List<ProductDto>? Produkter;
+    private int? ValgtProduktId;
+    private int Quantity = 1;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            Produkter = await ProductService.GetProductsAsync();
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Feil ved henting av produkter: " + ex.Message);
+        }
+    }
+
+    private async Task SendInnBestilling()
+    {
+        if (ValgtProduktId is null || Quantity < 1)
+            return;
+
+        var ordre = new CreateOrderDto
+        {
+            OrderItems = new List<OrderItemDto>
+            {
+                new OrderItemDto
+                {
+                    ProductId = ValgtProduktId.Value,
+                    Quantity = Quantity
+                }
+            }
+        };
+
+        var success = await OrderService.CreateOrderAsync(ordre);
+        if (success)
+        {
+            Navigation.NavigateTo("/mine-bestillinger");
+        }
+    }
+}

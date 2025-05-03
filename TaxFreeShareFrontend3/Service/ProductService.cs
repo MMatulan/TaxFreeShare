@@ -14,7 +14,9 @@ namespace TaxFreeShareFrontend3.Services
 
         public async Task<List<ProductDto>> GetProductsAsync()
         {
-            return await _http.GetFromJsonAsync<List<ProductDto>>("api/products") ?? new();
+            var response = await _http.GetFromJsonAsync<List<ProductDto>>("api/products");
+            return response ?? new List<ProductDto>();
         }
+
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareAPI\\TaxFreeShareAPI.csproj": {}
+    "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareAPI\\TaxFreeShareAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareAPI\\TaxFreeShareAPI.csproj": {
+    "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareAPI\\TaxFreeShareAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareAPI\\TaxFreeShareAPI.csproj",
+        "projectUniqueName": "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareAPI\\TaxFreeShareAPI.csproj",
         "projectName": "TaxFreeShareAPI",
-        "projectPath": "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareAPI\\TaxFreeShareAPI.csproj",
+        "projectPath": "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareAPI\\TaxFreeShareAPI.csproj",
         "packagesPath": "C:\\Users\\Matul\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareAPI\\obj\\",
+        "outputPath": "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Matul\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -26,8 +26,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareFrontend3\\TaxFreeShareFrontend3.csproj": {
-                "projectPath": "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareFrontend3\\TaxFreeShareFrontend3.csproj"
+              "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareFrontend3\\TaxFreeShareFrontend3.csproj": {
+                "projectPath": "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareFrontend3\\TaxFreeShareFrontend3.csproj"
               }
             }
           }
@@ -104,14 +104,14 @@
         }
       }
     },
-    "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareFrontend3\\TaxFreeShareFrontend3.csproj": {
+    "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareFrontend3\\TaxFreeShareFrontend3.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareFrontend3\\TaxFreeShareFrontend3.csproj",
+        "projectUniqueName": "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareFrontend3\\TaxFreeShareFrontend3.csproj",
         "projectName": "TaxFreeShareFrontend3",
-        "projectPath": "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareFrontend3\\TaxFreeShareFrontend3.csproj",
+        "projectPath": "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareFrontend3\\TaxFreeShareFrontend3.csproj",
         "packagesPath": "C:\\Users\\Matul\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Matul\\Goksad\\TaxFreeShare\\TaxFreeShareFrontend3\\obj\\",
+        "outputPath": "C:\\Users\\Matul\\Gokstad\\TaxFreeShare\\TaxFreeShareFrontend3\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Matul\\AppData\\Roaming\\NuGet\\NuGet.Config"

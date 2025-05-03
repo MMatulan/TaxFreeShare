@@ -13,21 +13,20 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 // Local Storage
 builder.Services.AddBlazoredLocalStorage();
 
-// Authentication & Authorization
+// Authentication
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 
-// Custom handler for å legge til token
+// Egen AuthorizationHandler som legger til Bearer-token
 builder.Services.AddScoped<AuthorizationMessageHandler>();
 
-// HTTP-klient med token
+// HttpClient med token-støtte
 builder.Services.AddHttpClient("AuthorizedClient", client =>
-    {
-        client.BaseAddress = new Uri("http://localhost:5143/");
-    })
-    .AddHttpMessageHandler<AuthorizationMessageHandler>();
+{
+    client.BaseAddress = new Uri("http://localhost:5143/");
+}).AddHttpMessageHandler<AuthorizationMessageHandler>();
 
-// Registrer tjenester som bruker HTTP-klienten
+// Bruk denne klienten i appen
 builder.Services.AddScoped(sp =>
 {
     var factory = sp.GetRequiredService<IHttpClientFactory>();
@@ -36,12 +35,7 @@ builder.Services.AddScoped(sp =>
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddBlazoredLocalStorage();
-builder.Services.AddAuthorizationCore();
-builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 builder.Services.AddScoped<ProductService>();
-builder.Services.AddScoped<AuthorizationMessageHandler>();
 builder.Services.AddScoped<OrderService>();
-
 
 await builder.Build().RunAsync();

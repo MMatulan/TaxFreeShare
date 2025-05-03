@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "TaxFreeShareFrontend3",
   "resources": {
-    "hash": "sha256-4iirY3uKGg6GivAhm26Ak5ZWqiS3fvwPPpdnJfVwfpM=",
+    "hash": "sha256-mU7PcIFPifLAdjvOwUXvJ/QRetRHlnbD93TC1x6V3Cw=",
     "jsModuleNative": {
       "dotnet.native.8.0.0.epbhn0r53x.js": "sha256-LjLDIz9+J7uuiwMlQ4HbNx2BnSpphOtO2MwkoI28vdI="
     },
@@ -229,10 +229,10 @@
       "mscorlib.wasm": "sha256-cDuLeL3OCtVtiid/dyex1MVgbuzDSRwZxKzuP2Dp4mg=",
       "netstandard.wasm": "sha256-A0h86SDieTMoU/wU2JTszWCsUmMuguDcbap0b0BzsmI=",
       "System.Private.CoreLib.wasm": "sha256-/0DNIm/T0C07X7Tuz5uR8JvVCoAfEE2MnfPUSjyS9xc=",
-      "TaxFreeShareFrontend3.wasm": "sha256-QyunzAR/81R6NpRu/+SfFUCEKr2vL/Mz6XnQ+Ruh9XE="
+      "TaxFreeShareFrontend3.wasm": "sha256-IEti0EhGqAm9kKVeW29JNn7tF1Fcb5FBjKyLpPiTWoA="
     },
     "pdb": {
-      "TaxFreeShareFrontend3.pdb": "sha256-ypei5LRObgAcVrTTOc35ZNe+V2/uVrDMBkeTAwD/1d0="
+      "TaxFreeShareFrontend3.pdb": "sha256-6p1DQa/9AMbEglu4JcGngBe2Ma8LT7OSy8WhTJds7Mo="
     }
   },
   "cacheBootResources": true,

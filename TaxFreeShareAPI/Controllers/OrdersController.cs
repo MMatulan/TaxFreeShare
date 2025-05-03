@@ -45,7 +45,7 @@ public class OrdersController : ControllerBase
         }
         else if (userRole == "Selger")
         {
-            query = query.Where(o => o.Status == "Pending");
+            query = query.Where(o => o.SellerId == user.Id || (o.Status == "Pending" && o.SellerId == null));
         }
         else return Forbid();
 
@@ -55,6 +55,7 @@ public class OrdersController : ControllerBase
         {
             Id = order.Id,
             UserId = order.UserId,
+            SellerId = order.SellerId,
             OrderDate = order.OrderDate,
             Status = order.Status ?? "Pending",
             TotalAmount = order.TotalAmount,
@@ -65,6 +66,7 @@ public class OrdersController : ControllerBase
             }).ToList()
         }));
     }
+
 
     [HttpGet("{id}")]
     [Authorize]
@@ -170,6 +172,35 @@ public class OrdersController : ControllerBase
 
         return Ok($"Ordren #{id} er oppdatert til status '{order.Status}'.");
     }
+    
+    [HttpPost("assign/{orderId}")]
+    [Authorize(Roles = "Selger")]
+    public async Task<IActionResult> AssignOrderToSeller(int orderId)
+    {
+        var sellerId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(sellerId) || !int.TryParse(sellerId, out var id))
+        {
+            return Unauthorized("Ugyldig selger.");
+        }
+
+        var order = await _context.Orders.FindAsync(orderId);
+        if (order == null)
+        {
+            return NotFound("Bestilling ikke funnet.");
+        }
+
+        if (order.SellerId != null)
+        {
+            return BadRequest("Bestillingen er allerede tildelt en selger.");
+        }
+
+        order.SellerId = id;
+        order.Status = "Bekreftet";
+        await _context.SaveChangesAsync();
+        
+        return Ok("Bestilling tildelt selger og bekreftet.");
+    }
+
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
@@ -183,4 +214,6 @@ public class OrdersController : ControllerBase
 
         return Ok("Ordren er slettet.");
     }
+    
+    
 }

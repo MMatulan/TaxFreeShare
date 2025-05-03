@@ -24,4 +24,7 @@ public class Order
     public decimal TotalAmount { get; set; } 
 
     public string? Status { get; set; } = "Pending"; 
+    
+    public int? SellerId { get; set; }
+    
 }

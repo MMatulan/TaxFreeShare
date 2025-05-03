@@ -42,11 +42,9 @@ public class OrderService
     
     public async Task<bool> AssignOrderToSellerAsync(int orderId)
     {
-        var dto = new OrderDto { Id = orderId }; 
-        var response = await _http.PostAsJsonAsync("api/orders/assign", dto);
+        var response = await _http.PostAsync($"api/orders/assign/{orderId}", null);
         return response.IsSuccessStatusCode;
     }
-
 
     
 }

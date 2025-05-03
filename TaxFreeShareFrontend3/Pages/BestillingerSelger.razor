@@ -61,7 +61,6 @@ else
         Feilmelding = null;
         SuksessMelding = null;
 
-        // Midlertidig: Bare oppdater status til "Bekreftet"
         var success = await OrderService.UpdateOrderStatusAsync(orderId, "Fullført");
 
         if (success)

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TaxFreeShareAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5f46d968629f5307286c970706681bf9c15b61a")]
 [assembly: System.Reflection.AssemblyProductAttribute("TaxFreeShareAPI")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TaxFreeShareAPI")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

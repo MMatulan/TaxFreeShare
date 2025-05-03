@@ -5,16 +5,29 @@ namespace TaxFreeShareFrontend3.Services;
 
 public class UserService
 {
-    private readonly HttpClient _http;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public UserService(HttpClient http)
+    public UserService(IHttpClientFactory httpClientFactory)
     {
-        _http = http;
+        _httpClientFactory = httpClientFactory;
     }
 
     public async Task<UserDto?> GetUserByIdAsync(int id)
     {
-        return await _http.GetFromJsonAsync<UserDto>($"api/users/{id}");
+        var client = _httpClientFactory.CreateClient("AuthorizedClient");
+        return await client.GetFromJsonAsync<UserDto>($"api/users/{id}");
     }
-    
+
+    public async Task<UserDto?> GetCurrentUserAsync()
+    {
+        var client = _httpClientFactory.CreateClient("AuthorizedClient");
+        return await client.GetFromJsonAsync<UserDto>("api/users/me");
+    }
+
+    public async Task<bool> UpdateUserAsync(UserDto user)
+    {
+        var client = _httpClientFactory.CreateClient("AuthorizedClient");
+        var response = await client.PutAsJsonAsync("api/users/update", user);
+        return response.IsSuccessStatusCode;
+    }
 }
