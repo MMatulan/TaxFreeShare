@@ -1,0 +1,46 @@
+﻿# Build results
+bin/
+obj/
+out/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
+*.exe
+*.dll
+*.pdb
+*.cache
+*.log
+*.vspscc
+*.vssscc
+
+# User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Rider
+.idea/
+*.sln.iml
+
+# Visual Studio
+.vs/
+
+# Others
+*.dbmdl
+*.DS_Store
+*.ncrunch*
+*.localhistory/
+*.nupkg
+*.orig
+*.bak
+*.tmp
+*.swp
+*.sdf
+*.ipch
+*.db
+*.sqlite
+*.log
+*.sql
+*.mdf
+*.ldf
