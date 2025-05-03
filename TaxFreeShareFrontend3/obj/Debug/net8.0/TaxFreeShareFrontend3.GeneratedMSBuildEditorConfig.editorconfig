@@ -1,0 +1,83 @@
+is_global = true
+build_property.EnableAotAnalyzer = 
+build_property.EnableSingleFileAnalyzer = 
+build_property.EnableTrimAnalyzer = false
+build_property.IncludeAllContentForSelfExtract = 
+build_property.TargetFramework = net8.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = 
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = false
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = browser
+build_property.RootNamespace = TaxFreeShareFrontend3
+build_property.RootNamespace = TaxFreeShareFrontend3
+build_property.ProjectDir = C:\Users\Matul\Goksad\TaxFreeShare\TaxFreeShareFrontend3\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = false
+build_property.RazorLangVersion = 8.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Matul\Goksad\TaxFreeShare\TaxFreeShareFrontend3
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/App.razor]
+build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Pages/BestillingerSelger.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQmVzdGlsbGluZ2VyU2VsZ2VyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Pages/Chat.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hhdC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Pages/DashboardKjøper.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFzaGJvYXJkS2rDuHBlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Pages/DashboardSelger.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGFzaGJvYXJkU2VsZ2VyLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Pages/ForgotPassword.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9yZ290UGFzc3dvcmQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Pages/Home.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSG9tZS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Pages/Login.Razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4uUmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Pages/MineBestillinger.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWluZUJlc3RpbGxpbmdlci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Pages/OppdaterBestilling.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT3BwZGF0ZXJCZXN0aWxsaW5nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Pages/Register.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Pages/ResetPassword.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVzZXRQYXNzd29yZC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/_Imports.razor]
+build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Layout/MainLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE1haW5MYXlvdXQucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-2it6hztmam
+
+[C:/Users/Matul/Goksad/TaxFreeShare/TaxFreeShareFrontend3/Layout/NavMenu.razor]
+build_metadata.AdditionalFiles.TargetPath = TGF5b3V0XE5hdk1lbnUucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = b-e9ba9hx0cs

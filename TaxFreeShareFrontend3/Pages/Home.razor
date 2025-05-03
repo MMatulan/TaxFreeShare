@@ -1,0 +1,110 @@
+﻿@inject NavigationManager Navigation
+
+@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<main class="bg-white text-dark">
+
+    <section class="position-relative text-white" style="min-height: 70vh;">
+        <!-- Bakgrunnsbilde -->
+        <img src="/picture/Frontpage-suitcase.jpg"
+             class="position-absolute top-0 start-0 w-100 h-100 object-fit-cover"
+             style="z-index: 0; filter: brightness(60%);"
+             alt="Hero bakgrunn" />
+
+        <!-- Innhold + Logo samlet -->
+        <div class="position-relative z-1 container h-100 d-flex flex-column justify-content-start pt-5">
+            <!-- Logo -->
+            <div class="mb-4">
+                <h2 class="fw-bold fs-4 m-0">TaxFree<span class="text-black">Share</span></h2>
+            </div>
+
+            <!-- Logg inn-link oppe til høyre -->
+            <a href="/login" class="position-absolute top-0 end-0 p-4 text-white fw-semibold text-decoration-none z-1">
+                Logg inn
+            </a>
+
+            <!-- Tekst og knapper -->
+            <div class="text-start">
+                <h1 class="display-4 fw-bold mb-3">
+                    Kjøp og selg <br />
+                    taxfree-varer på en <br />
+                    trygg og enkel måte
+                </h1>
+                <p class="lead mb-4">
+                    Koble med reisende for å kjøpe taxfree-varer <br />
+                    eller opprette tilbud selv.
+                </p>
+                <div class="d-flex flex-wrap gap-3">
+                    <button @onclick='() => Navigation.NavigateTo("/register?role=kjøper")'>
+                        Bli med som kjøper
+                    </button>
+                    <button @onclick='() => Navigation.NavigateTo("/register?role=selger")'>
+                        Bli med som selger
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slik fungerer det -->
+    <section class="py-5 bg-light text-center">
+        <div class="container">
+            <h2 class="display-6 fw-bold mb-4">Slik fungerer det</h2>
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <img src="/icons/flight.png" alt="Tilbud" class="mb-3" width="48" height="48" />
+                    <p>1. En reisende oppretter tilbud</p>
+                </div>
+                <div class="col-md-3">
+                    <img src="/icons/order.png" alt="Bestilling" class="mb-3" width="48" height="48" />
+                    <p>2. Du legger inn bestilling</p>
+                </div>
+                <div class="col-md-3">
+                    <img src="/icons/handshake.png" alt="Levering" class="mb-3" width="48" height="48" />
+                    <p>3. Varer leveres etter avtale</p>
+                </div>
+                <div class="col-md-3">
+                    <img src="/icons/order_done.png" alt="Betaling" class="mb-3" width="48" height="48" />
+                    <p>4. Pengene overføres trygt via plattformen</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Hvorfor bruke -->
+    <section class="py-5 bg-white text-center">
+        <div class="container">
+            <h2 class="display-6 fw-bold mb-4">Hvorfor bruke TaxFreeShare</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <img src="/icons/moneybag.png" alt="Spar penger" class="mb-3" width="48" height="48" />
+                    <h4 class="fw-semibold">Spar penger</h4>
+                    <p>Få tak i taxfree-varer til lavere priser</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="/icons/product.png" alt="Eksklusive varer" class="mb-3" width="48" height="48" />
+                    <h4 class="fw-semibold">Få varer du ellers ikke får tak i</h4>
+                    <p>Kjøp eksklusive produkter fra utlandet</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="/icons/safe_payment.png" alt="Trygg betaling" class="mb-3" width="48" height="48" />
+                    <h4 class="fw-semibold">Bygd på tillit og trygg betaling</h4>
+                    <p>Transaksjoner er sikret for din beskyttelse</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5 bg-light text-center">
+        <div class="container">
+            <h2 class="display-6 fw-bold mb-4">Bli med i dag</h2>
+            <button @onclick='() => Navigation.NavigateTo("/register")'>
+                Registrer deg nå
+            </button>
+        </div>
+    </section>
+
+</main>

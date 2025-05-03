@@ -1,0 +1,70 @@
+﻿@page "/login"
+@inject NavigationManager Navigation
+@inject IAuthService AuthService
+@using TaxFreeShareFrontend3.Models
+@using TaxFreeShareFrontend3.Services
+
+<div class="d-flex justify-content-center align-items-center vh-100 bg-light">
+    <div class="text-center bg-white p-5 rounded shadow" style="max-width: 400px; width: 100%;">
+        <h1 class="fw-bold mb-4">TaxFree<span class="text-primary">Share</span></h1>
+        <h2 class="mb-4">Logg inn</h2>
+
+        @if (!string.IsNullOrWhiteSpace(ErrorMessage))
+        {
+            <div class="alert alert-danger">@ErrorMessage</div>
+        }
+
+        <EditForm Model="loginModel" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+            <ValidationSummary />
+
+            <!-- E-post -->
+            <div class="form-group mb-3 text-start">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                        <img src="/icons/mail.png" alt="E-post ikon" style="width: 20px; height: 20px;" />
+                    </span>
+                    <InputText @bind-Value="loginModel.Email" class="form-control border-start-0" placeholder="E-post" />
+                </div>
+            </div>
+
+            <!-- Passord -->
+            <div class="form-group mb-3 text-start">
+                <div class="input-group">
+                    <span class="input-group-text bg-white border-end-0">
+                        <img src="/icons/password.png" alt="Passord ikon" style="width: 20px; height: 20px;" />
+                    </span>
+                    <InputText @bind-Value="loginModel.Password" type="password" class="form-control border-start-0" placeholder="Passord" />
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 mb-3">Logg inn</button>
+        </EditForm>
+
+        <!-- Glemt passord -->
+        <a href="/glemt-passord" class="text-decoration-none text-primary">Glemt passordet?</a>
+    </div>
+</div>
+
+
+@code {
+private LoginModel loginModel = new();
+private string ErrorMessage;
+
+private async Task HandleLogin()
+{
+ErrorMessage = string.Empty;
+
+var result = await AuthService.LoginAsync(loginModel);
+
+if (result.Success)
+{
+Navigation.NavigateTo(result.Role == "Kjøper" ? "/dashboardKjøper" : "/dashboardSelger");
+}
+else
+{
+ErrorMessage = result.ErrorMessage;
+    }
+
+    }
+}

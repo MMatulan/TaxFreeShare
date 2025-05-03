@@ -1,0 +1,83 @@
+﻿@page "/selger-bestillinger"
+@using TaxFreeShareFrontend3.Models.DTO
+@using TaxFreeShareFrontend3.Services
+@inject OrderService OrderService
+
+<h3>Bestillinger som selger</h3>
+
+@if (!string.IsNullOrEmpty(SuksessMelding))
+{
+    <div class="alert alert-success mt-3">@SuksessMelding</div>
+}
+@if (!string.IsNullOrEmpty(Feilmelding))
+{
+    <div class="alert alert-danger mt-3">@Feilmelding</div>
+}
+
+@if (Orders == null)
+{
+    <p>Laster bestillinger...</p>
+}
+else if (!Orders.Any())
+{
+    <p>Ingen bestillinger funnet.</p>
+}
+else
+{
+    <ul class="list-group">
+        @foreach (var order in Orders)
+        {
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>Ordre #@order.Id</strong><br />
+                    Status: <span class="badge bg-info">@order.Status</span><br />
+                    Dato: @order.OrderDate.ToLocalTime().ToString("dd.MM.yyyy HH:mm")<br />
+                    Beløp: <strong>@order.TotalAmount.ToString("F2") kr</strong>
+                </div>
+
+                <button class="btn btn-success" @onclick="() => BekreftBestilling(order.Id)">Bekreft</button>
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    private List<OrderDto> Orders = new();
+    private string? SuksessMelding;
+    private string? Feilmelding;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await HentBestillingerPåNytt();
+    }
+
+    private async Task HentBestillingerPåNytt()
+    {
+        Orders = await OrderService.GetOrdersForCurrentUserAsync();
+    }
+
+    private async Task BekreftBestilling(int orderId)
+    {
+        Feilmelding = null;
+        SuksessMelding = null;
+
+        // Midlertidig: Bare oppdater status til "Bekreftet"
+        var success = await OrderService.UpdateOrderStatusAsync(orderId, "Fullført");
+
+        if (success)
+        {
+            SuksessMelding = $"Ordre #{orderId} ble bekreftet.";
+            await HentBestillingerPåNytt();
+        }
+        else
+        {
+            Feilmelding = $"Kunne ikke bekrefte bestilling #{orderId}.";
+        }
+
+        StateHasChanged();
+        await Task.Delay(5000);
+        SuksessMelding = null;
+        Feilmelding = null;
+        StateHasChanged();
+    }
+}

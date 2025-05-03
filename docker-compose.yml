@@ -1,0 +1,6 @@
+﻿services:
+  taxfreeshareapi:
+    image: taxfreeshareapi
+    build:
+      context: .
+      dockerfile: TaxFreeShareAPI/Dockerfile

@@ -1,0 +1,61 @@
+﻿@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager Navigation
+
+@page "/chat"
+
+<h3>Chat</h3>
+
+<div class="mb-3">
+    <input @bind="Receiver" placeholder="Mottaker" class="form-control" />
+</div>
+
+<div class="mb-3">
+    <textarea @bind="Message" placeholder="Skriv melding" class="form-control"></textarea>
+</div>
+
+<button class="btn btn-primary" @onclick="SendMessage">Send</button>
+
+<hr />
+
+<div>
+    <ul class="list-group">
+        @foreach (var msg in Messages)
+        {
+            <li class="list-group-item">@msg</li>
+        }
+    </ul>
+</div>
+
+@code {
+    private HubConnection? hubConnection;
+    private string? Message;
+    private string? Receiver;
+    private List<string> Messages = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(Navigation.ToAbsoluteUri("https://localhost:7032/chathub"))
+            .Build();
+
+        hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+        {
+            Messages.Add($"{user}: {message}");
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+    }
+
+
+    private async Task SendMessage()
+    {
+        if (hubConnection is not null)
+        {
+            var sender = "Matulan"; // Senere: hent fra token!
+            await hubConnection.SendAsync("SendMessage", sender, Receiver, Message);
+            Messages.Add($"Du: {Message}");
+            Message = string.Empty;
+        }
+    }
+}

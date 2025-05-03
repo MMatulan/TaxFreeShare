@@ -1,0 +1,98 @@
+﻿@page "/register"
+@using System.Web
+@inject NavigationManager Navigation
+@inject HttpClient Http
+
+<PageTitle>Registrer deg</PageTitle>
+
+<h3>Registrering</h3>
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger">@ErrorMessage</div>
+}
+
+<div class="card p-4 shadow-sm w-100" style="max-width: 500px">
+    <div class="mb-3">
+        <label for="name" class="form-label">Navn</label>
+        <input class="form-control" id="name" @bind="RegisterModel.Name" />
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">E-post</label>
+        <input class="form-control" id="email" type="email" @bind="RegisterModel.Email" />
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Passord</label>
+        <input class="form-control" id="password" type="password" @bind="RegisterModel.Password" />
+    </div>
+        <div class="mb-3">
+            <label class="form-label">Velg rolle</label>
+            @if (IsRolePreselected)
+            {
+            <input class="form-control" disabled value="@RegisterModel.Role" />
+            }
+            else
+            {
+            <select class="form-select" @bind="RegisterModel.Role" disabled="@IsRolePreselected">
+                <option value="Kjøper">Kjøper</option>
+                <option value="Selger">Selger</option>
+            </select>
+
+            }
+        </div>
+        <button class="btn btn-primary w-100" @onclick="RegisterUser">Registrer deg</button>
+    </div>
+
+@code {
+    private UserRegisterDto RegisterModel = new();
+    private string ErrorMessage;
+    private bool IsRolePreselected = false;
+
+    protected override void OnInitialized()
+    {
+        var uri = Navigation.ToAbsoluteUri(Navigation.Uri);
+        var query = HttpUtility.ParseQueryString(uri.Query);
+        var role = query["role"]?.ToLower();
+
+        if (!string.IsNullOrEmpty(role))
+        {
+            IsRolePreselected = true;
+            RegisterModel.Role = role switch
+            {
+                "selger" => "Selger",
+                "kjøper" => "Kjøper",
+                _ => "Kjøper" 
+            };
+        }
+    }
+
+    private async Task RegisterUser()
+    {
+        ErrorMessage = string.Empty;
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("api/users/register", RegisterModel);
+            if (response.IsSuccessStatusCode)
+            {
+                Navigation.NavigateTo("/login");
+            }
+            else
+            {
+                ErrorMessage = await response.Content.ReadAsStringAsync();
+            }
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+    }
+
+    public class UserRegisterDto
+    {
+        public string Name { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public string Role { get; set; }
+    }
+}
