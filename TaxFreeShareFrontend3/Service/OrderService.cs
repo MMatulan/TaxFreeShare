@@ -43,8 +43,10 @@ public class OrderService
     public async Task<bool> AssignOrderToSellerAsync(int orderId)
     {
         var response = await _http.PostAsync($"api/orders/assign/{orderId}", null);
+        Console.WriteLine($"📡 AssignOrderToSellerAsync: POST til /assign/{orderId} => {response.StatusCode}");
         return response.IsSuccessStatusCode;
     }
+
 
     
 }

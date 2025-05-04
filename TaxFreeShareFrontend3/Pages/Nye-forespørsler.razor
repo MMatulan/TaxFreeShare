@@ -36,6 +36,7 @@ else
                 </div>
 
                 <button class="btn btn-success" @onclick="() => BekreftBestilling(order.Id)">Bekreft</button>
+                
             </li>
         }
     </ul>
@@ -62,11 +63,19 @@ else
         SuksessMelding = null;
 
         var success = await OrderService.AssignOrderToSellerAsync(orderId);
+        Console.WriteLine($"BekreftBestilling - Respons: {success}");
+
+        await HentBestillingerPåNytt();
+
+        Console.WriteLine($"Antall bestillinger hentet: {Orders?.Count}");
+        foreach (var order in Orders)
+        {
+            Console.WriteLine($"OrdreId: {order.Id}, Status: {order.Status}, SellerId: {order.SellerId}");
+        }
 
         if (success)
         {
             SuksessMelding = $"Ordre #{orderId} ble bekreftet.";
-            await HentBestillingerPåNytt();
         }
         else
         {

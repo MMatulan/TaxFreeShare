@@ -192,22 +192,37 @@ public class OrdersController : ControllerBase
     public async Task<IActionResult> AssignOrderToSeller(int orderId)
     {
         var sellerId = GetCurrentUserId();
-        if (sellerId == null) return Unauthorized("Ugyldig selger.");
+        _logger.LogInformation("AssignOrderToSeller() - SelgerId hentet fra token: {SellerId}", sellerId);
+
+        if (sellerId == null)
+        {
+            _logger.LogWarning("SelgerId er null!");
+            return Unauthorized("Ugyldig selger.");
+        }
 
         var order = await _context.Orders.FindAsync(orderId);
-        if (order == null) return NotFound("Bestilling ikke funnet.");
+        if (order == null)
+        {
+            _logger.LogWarning("Ordre ikke funnet med ID: {OrderId}", orderId);
+            return NotFound("Bestilling ikke funnet.");
+        }
 
         if (order.SellerId != null)
         {
+            _logger.LogWarning("Ordre #{OrderId} er allerede tildelt.", orderId);
             return BadRequest("Bestillingen er allerede tildelt en selger.");
         }
 
         order.SellerId = sellerId.Value;
         order.Status = "Bekreftet";
+
+        _logger.LogInformation("Ordre #{OrderId} tildelt selger #{SellerId} og satt til 'Bekreftet'", orderId, sellerId);
+    
         await _context.SaveChangesAsync();
 
         return Ok("Bestilling tildelt selger og bekreftet.");
     }
+
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
