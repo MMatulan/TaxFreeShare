@@ -17,14 +17,14 @@ builder.Services.AddBlazoredLocalStorage();
 builder.Services.AddAuthorizationCore();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 
-// Egen AuthorizationHandler som legger til Bearer-token
-builder.Services.AddScoped<AuthorizationMessageHandler>();
+builder.Services.AddScoped<AuthorizationMessageHandler>(); 
 
-// HttpClient med token-støtte
 builder.Services.AddHttpClient("AuthorizedClient", client =>
 {
     client.BaseAddress = new Uri("http://localhost:5143/");
 }).AddHttpMessageHandler<AuthorizationMessageHandler>();
+
+
 
 // Bruk denne klienten i appen
 builder.Services.AddScoped(sp =>

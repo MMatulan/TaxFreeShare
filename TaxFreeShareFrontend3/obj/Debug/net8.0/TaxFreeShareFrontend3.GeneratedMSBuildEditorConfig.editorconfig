@@ -26,10 +26,6 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Matul/Gokstad/TaxFreeShare/TaxFreeShareFrontend3/Pages/BestillingerSelger.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQmVzdGlsbGluZ2VyU2VsZ2VyLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/Matul/Gokstad/TaxFreeShare/TaxFreeShareFrontend3/Pages/Chat.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2hhdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -64,6 +60,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Matul/Gokstad/TaxFreeShare/TaxFreeShareFrontend3/Pages/NyBestilling.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTnlCZXN0aWxsaW5nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Matul/Gokstad/TaxFreeShare/TaxFreeShareFrontend3/Pages/Nye-forespørsler.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTnllLWZvcmVzcMO4cnNsZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Matul/Gokstad/TaxFreeShare/TaxFreeShareFrontend3/Pages/OppdaterBestilling.razor]

@@ -16,7 +16,11 @@ namespace TaxFreeShareFrontend3.Auth
 
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
+            Console.WriteLine("Kjører GetAuthenticationStateAsync");
+
             var token = await _localStorage.GetItemAsStringAsync("authToken");
+            Console.WriteLine("Token hentet fra localStorage: " + token);
+
 
             var identity = new ClaimsIdentity();
 
@@ -31,6 +35,8 @@ namespace TaxFreeShareFrontend3.Auth
 
         public void NotifyUserAuthentication(string token)
         {
+            Console.WriteLine("NotifyUserAuthentication ble kalt med token: " + token);
+            
             var identity = new ClaimsIdentity(ParseClaimsFromJwt(token), "jwt");
             var user = new ClaimsPrincipal(identity);
 

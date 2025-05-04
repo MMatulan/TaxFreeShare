@@ -2,5 +2,5 @@
 
 public class CreateOrderDto
 {
-    public List<OrderItemDto> OrderItems { get; set; } = new();
+    public List<UpdateOrderItemDto> OrderItems { get; set; } = new();
 }

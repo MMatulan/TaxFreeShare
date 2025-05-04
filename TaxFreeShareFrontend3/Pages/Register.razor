@@ -29,15 +29,14 @@
             <label class="form-label">Velg rolle</label>
             @if (IsRolePreselected)
             {
-            <input class="form-control" disabled value="@RegisterModel.Role" />
+            <p class="form-control-plaintext">@RegisterModel.Role</p>
             }
             else
             {
-            <select class="form-select" @bind="RegisterModel.Role" disabled="@IsRolePreselected">
+            <select class="form-select" @bind="RegisterModel.Role">
                 <option value="Kjøper">Kjøper</option>
                 <option value="Selger">Selger</option>
             </select>
-
             }
         </div>
         <button class="btn btn-primary w-100" @onclick="RegisterUser">Registrer deg</button>

@@ -81,7 +81,7 @@ public class ProductsController : ControllerBase
             Category = productDto.Category,
             Price = productDto.Price,
             Brand = productDto.Brand,
-            CreatedAt = DateTime.UtcNow // Setter CreatedAt automatisk
+            CreatedAt = DateTime.UtcNow 
         };
 
         _context.Products.Add(product);

@@ -24,17 +24,23 @@ public class OrdersController : ControllerBase
         _emailService = emailService;
     }
 
+    private int? GetCurrentUserId()
+    {
+        var claim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        return int.TryParse(claim, out var id) ? id : null;
+    }
+
     [HttpGet]
     [Authorize]
     public async Task<ActionResult<IEnumerable<OrderDto>>> GetOrders()
     {
-        var userEmail = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var userId = GetCurrentUserId();
         var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
 
-        if (string.IsNullOrEmpty(userEmail) || string.IsNullOrEmpty(userRole))
+        if (userId == null || string.IsNullOrEmpty(userRole))
             return BadRequest("Ugyldig bruker.");
 
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         if (user == null) return BadRequest("Brukeren finnes ikke.");
 
         IQueryable<Order> query = _context.Orders.Include(o => o.OrderItems);
@@ -67,7 +73,6 @@ public class OrdersController : ControllerBase
         }));
     }
 
-
     [HttpGet("{id}")]
     [Authorize]
     public async Task<ActionResult<OrderDto>> GetOrder(int id)
@@ -75,12 +80,11 @@ public class OrdersController : ControllerBase
         var order = await _context.Orders.Include(o => o.OrderItems).FirstOrDefaultAsync(o => o.Id == id);
         if (order == null) return NotFound("Ordren ble ikke funnet.");
 
-        var userEmail = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
-        var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
+        var userId = GetCurrentUserId();
+        if (userId == null) return Unauthorized("Ugyldig bruker.");
 
-        if (user == null || (order.UserId != user.Id && userRole != "admin"))
-            return Forbid();
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (user == null) return BadRequest("Brukeren finnes ikke.");
 
         return Ok(new OrderDto
         {
@@ -101,9 +105,10 @@ public class OrdersController : ControllerBase
     [Authorize]
     public async Task<ActionResult<OrderDto>> CreateOrder([FromBody] CreateOrderDto orderDto)
     {
-        var userEmail = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+        var userId = GetCurrentUserId();
+        if (userId == null) return Unauthorized("Ugyldig bruker-ID.");
 
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
         if (user == null) return BadRequest("Brukeren finnes ikke.");
         if (orderDto.OrderItems == null || !orderDto.OrderItems.Any())
             return BadRequest("Ordren må inneholde minst ett produkt.");
@@ -120,11 +125,20 @@ public class OrdersController : ControllerBase
         await _context.SaveChangesAsync();
 
         var orderItems = new List<OrderItem>();
+        _logger.LogInformation("Bruker-ID: {UserId}", userId);
+        _logger.LogInformation("Antall ordrelinjer: {Count}", orderDto.OrderItems.Count);
 
         foreach (var item in orderDto.OrderItems)
         {
+            _logger.LogInformation("Produkt-ID: {ProductId}, Antall: {Quantity}", item.ProductId, item.Quantity);
             var product = await _context.Products.FindAsync(item.ProductId);
-            if (product == null) continue;
+            if (product == null)
+            {
+                _logger.LogWarning("Fant ikke produkt med ID {Id}", item.ProductId);
+                continue;
+            }
+
+            _logger.LogInformation("Produkt: {Name}, Pris: {Price}", product.Name, product.Price);
 
             orderItems.Add(new OrderItem
             {
@@ -172,35 +186,28 @@ public class OrdersController : ControllerBase
 
         return Ok($"Ordren #{id} er oppdatert til status '{order.Status}'.");
     }
-    
+
     [HttpPost("assign/{orderId}")]
     [Authorize(Roles = "Selger")]
     public async Task<IActionResult> AssignOrderToSeller(int orderId)
     {
-        var sellerId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-        if (string.IsNullOrEmpty(sellerId) || !int.TryParse(sellerId, out var id))
-        {
-            return Unauthorized("Ugyldig selger.");
-        }
+        var sellerId = GetCurrentUserId();
+        if (sellerId == null) return Unauthorized("Ugyldig selger.");
 
         var order = await _context.Orders.FindAsync(orderId);
-        if (order == null)
-        {
-            return NotFound("Bestilling ikke funnet.");
-        }
+        if (order == null) return NotFound("Bestilling ikke funnet.");
 
         if (order.SellerId != null)
         {
             return BadRequest("Bestillingen er allerede tildelt en selger.");
         }
 
-        order.SellerId = id;
+        order.SellerId = sellerId.Value;
         order.Status = "Bekreftet";
         await _context.SaveChangesAsync();
-        
+
         return Ok("Bestilling tildelt selger og bekreftet.");
     }
-
 
     [HttpDelete("{id}")]
     [Authorize(Roles = "Admin")]
@@ -214,6 +221,4 @@ public class OrdersController : ControllerBase
 
         return Ok("Ordren er slettet.");
     }
-    
-    
 }

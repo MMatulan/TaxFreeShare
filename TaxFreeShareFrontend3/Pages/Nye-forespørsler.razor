@@ -1,4 +1,4 @@
-﻿@page "/selger-bestillinger"
+﻿@page "/nye-forespørsler"
 @using TaxFreeShareFrontend3.Models.DTO
 @using TaxFreeShareFrontend3.Services
 @inject OrderService OrderService
@@ -6,7 +6,7 @@
 <h3>Bestillinger som selger</h3>
 
 @if (!string.IsNullOrEmpty(SuksessMelding))
-{
+{   
     <div class="alert alert-success mt-3">@SuksessMelding</div>
 }
 @if (!string.IsNullOrEmpty(Feilmelding))
@@ -61,7 +61,7 @@ else
         Feilmelding = null;
         SuksessMelding = null;
 
-        var success = await OrderService.UpdateOrderStatusAsync(orderId, "Fullført");
+        var success = await OrderService.AssignOrderToSellerAsync(orderId);
 
         if (success)
         {

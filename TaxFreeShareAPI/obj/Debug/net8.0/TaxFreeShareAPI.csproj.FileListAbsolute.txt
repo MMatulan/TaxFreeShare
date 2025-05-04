@@ -283,9 +283,9 @@ C:\Users\Matul\Goksad\TestOppgave\Test\TaxFreeShareAPI\bin\Debug\net8.0\Microsof
 C:\Users\Matul\Goksad\TestOppgave\Test\TaxFreeShareAPI\bin\Debug\net8.0\Microsoft.Extensions.Diagnostics.dll
 C:\Users\Matul\Goksad\TestOppgave\Test\TaxFreeShareAPI\bin\Debug\net8.0\Microsoft.Extensions.Http.dll
 C:\Users\Matul\Goksad\TestOppgave\Test\TaxFreeShareAPI\bin\Debug\net8.0\Microsoft.Extensions.Options.ConfigurationExtensions.dll
+C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\bin\Debug\net8.0\TaxFreeShareFrontend3.staticwebassets.runtime.json
 C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\bin\Debug\net8.0\appsettings.json
-C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\bin\Debug\net8.0\TaxFreeShareFrontend3.staticwebassets.runtime.json
 C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\bin\Debug\net8.0\TaxFreeShareAPI.staticwebassets.runtime.json
 C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\bin\Debug\net8.0\TaxFreeShareAPI.exe
 C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\bin\Debug\net8.0\TaxFreeShareAPI.deps.json

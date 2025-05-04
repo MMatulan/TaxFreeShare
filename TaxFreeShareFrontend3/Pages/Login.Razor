@@ -59,7 +59,8 @@ var result = await AuthService.LoginAsync(loginModel);
 
 if (result.Success)
 {
-Navigation.NavigateTo(result.Role == "Kjøper" ? "/dashboardKjøper" : "/dashboardSelger");
+    Console.WriteLine("Innlogging OK, rolle: " + result.Role); 
+    Navigation.NavigateTo(result.Role == "Kjøper" ? "/dashboardKjøper" : "/dashboardSelger");
 }
 else
 {

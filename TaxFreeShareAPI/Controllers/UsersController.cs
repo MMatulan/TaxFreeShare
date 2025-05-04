@@ -27,6 +27,33 @@ public class UsersController : ControllerBase
         _configuration = configuration;
         _logger = logger;
     }
+    
+    private string GenerateJwtToken(User user)
+    {
+        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
+            _configuration["Jwt:Key"] ?? throw new Exception("Missing JWT Key")
+        ));
+        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+        var claims = new[]
+        {
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.Role),
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        };
+
+        var token = new JwtSecurityToken(
+            _configuration["Jwt:Issuer"],
+            _configuration["Jwt:Audience"],   
+            claims,
+            expires: DateTime.UtcNow.AddHours(2),
+            signingCredentials: credentials
+        );
+
+        return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
 
     [HttpPost("register")]
     public async Task<ActionResult<string>> Register(
@@ -124,31 +151,6 @@ public class UsersController : ControllerBase
         return Ok(new { Token = token, role = user.Role, UserId = user.Id });
     }
 
-    private string GenerateJwtToken(User user)
-    {
-        var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-            _configuration["Jwt:Key"] ?? throw new Exception("Missing JWT Key")
-        ));
-        var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
-
-        var claims = new[]
-        {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Email),
-            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(ClaimTypes.Role, user.Role),
-            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()) 
-        };
-
-        var token = new JwtSecurityToken(
-            _configuration["Jwt:Issuer"],
-            _configuration["Jwt:Issuer"],
-            claims,
-            expires: DateTime.UtcNow.AddHours(2),
-            signingCredentials: credentials
-        );
-
-        return new JwtSecurityTokenHandler().WriteToken(token);
-    }
 
     // GET: api/users/{id}
     [HttpGet("{id}")]
@@ -225,14 +227,34 @@ public class UsersController : ControllerBase
     [Authorize]
     public async Task<ActionResult<UserDto>> GetCurrentUser()
     {
+        Console.WriteLine("Endepunkt '/me' ble kalt");
+    
+        foreach (var claim in User.Claims)
+        {
+            Console.WriteLine($"Claim: {claim.Type} = {claim.Value}");
+        }
+        
         var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+        Console.WriteLine("Token claims:");
+        Console.WriteLine($" - NameIdentifier: {userId}");
+        Console.WriteLine($" - Role: {role}");
 
         if (string.IsNullOrEmpty(userId) || !int.TryParse(userId, out var id))
+        {
+            Console.WriteLine("Ugyldig eller manglende bruker-ID i token.");
             return Unauthorized("Ugyldig bruker.");
+        }
 
         var user = await _context.Users.FindAsync(id);
         if (user == null)
+        {
+            Console.WriteLine($"Bruker med ID {id} ikke funnet i databasen.");
             return NotFound("Bruker ikke funnet.");
+        }
+
+        Console.WriteLine($"Bruker funnet: {user.Email} (rolle: {user.Role})");
 
         return Ok(new UserDto
         {
@@ -243,6 +265,7 @@ public class UsersController : ControllerBase
             IsVerified = user.IsVerified
         });
     }
+
     [HttpPut("update")]
     [Authorize]
     public async Task<IActionResult> UpdateUserProfile([FromBody] UserDto userDto)
