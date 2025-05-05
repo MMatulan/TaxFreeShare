@@ -1,60 +1,91 @@
-﻿# TaxFreeShare
+﻿# TaxFreeShare Backend
+# Github Repo:
+https://github.com/MMatulan/TaxFreeShare.git
 
-**TaxFreeShare** er en backend-drevet applikasjon hvor reisende kan tjene penger ved å kjøpe taxfree-varer for andre personer. 
-Plattformen kobler sammen kjøpere og selgere (reisende) og legger til rette for en trygg og enkel bestillingsflyt.
+**Prosjektbeskrivelse** 
+Dette er backend-delen av prosjektet TaxFreeShare, en applikasjon hvor kjøpere kan legge inn bestillinger
+og selgere kan bekrefte og fullføre dem. Backend er bygget med .NET 8 Web API og bruker MySQL som database.
 
-## Funksjoner
+## Teknologi
 
-- Registrering og innlogging for både kjøpere og selgere
-- Rollebasert autentisering med JWT
-- Kjøper kan:
-    - Opprette bestilling med ønskede produkter
-    - Se og oppdatere sine bestillinger
-- Selger kan:
-    - Se tilgjengelige bestillinger
-    - Bekrefte og tildele seg bestillinger
-- Automatisk e-postbekreftelse ved bestilling
-- RESTful API
+ - ASP.NET Core Web API
 
-## Teknologi brukt
-- C# og .NET
-- Entity Framework Core
-- MYSQL Server
-- Docker
-- JWT for autentisering
-- Blazor for frontend
-- Bootstrap for UI
-- SMTP3 for e-postsending
+ - Entity Framework Core
 
-## Installasjon og kjøring
+ - MySQL
 
-### Backend (API)
+ - JWT-autentisering
 
-1. Klon repoet:
-   ```bash
-   git clone https://github.com/brukernavn/TaxFreeShare.git
-   cd TaxFreeShare/TaxFreeShareAPI
+ - SignalR (sanntidskommunikasjon)
 
 ## Autentisering
-JWT-token blir generert ved innlogging og må inkluderes i Authorization-header (Bearer token) ved API-kall.
+ - JWT brukes for å autentisere brukere (både kjøper og selger).
 
-Roller: Kjøper, Selger
+ - Rollen (Role) og bruker-ID (NameIdentifier) er inkludert som claims i token.
 
-## E-postfunksjon
-Ved opprettelse av bestilling blir det sendt e-post til kjøper med ordrebekreftelse. SMTP må konfigureres i appsettings.json.
+ - Eksempel på brukerclaims:
+ - {
+   "sub": "1",
+   "email": "user@example.com",
+   "role": "Kjøper"
+   }
 
-- Videre utvikling
-Betalingsløsning (Stripe/Vipps)
+## API-endepunkter
+  Brukere
+  Metode	    Endepunkt	            Beskrivelse
+  POST	    /api/users/register	    Registrer ny bruker
+  POST	    /api/users/login	    Logg inn og få JWT
+  GET	    /api/users/me	        Hent egen brukerprofil
 
-Meldingssystem mellom kjøper og selger
 
-Bedre UI med mer brukervennlig dashboard
+  Ordrer
+  Metode	      Endepunkt	                Beskrivelse
+  GET	        /api/orders	            Hent bestillinger for innlogget bruker
+  GET	        /api/orders/{id}	    Hent én spesifikk ordre
+  POST	        /api/orders	            Opprett ny ordre (krever kjøperrolle)
+  PUT	        /api/orders/status/{id}	Oppdater ordrestatus (admin)
+  POST	        /api/orders/assign/{orderId}	Selger bekrefter og tildeler seg en ordre
+  DELETE	     /api/orders/{id}	Slett en ordre (admin)
 
-Admin-panel
+  Produkter
+  Metode	        Endepunkt	            Beskrivelse
+  GET	        /api/products	        Hent alle produkter
+  GET	        /api/products/{id}	    Hent detaljer for et spesifikt produkt
+  POST	        /api/products	        Opprett et nytt produkt
+  PUT	        /api/products/{id}	    Oppdater et eksisterende produkt
+  DELETE	    /api/products/{id}	    Slett et produkt
 
-Enhetstester og integrasjonstester
+  Transaksjoner
+  Metode	        Endepunkt	            Beskrivelse
+  POST	        /api/transactions	    Opprett en ny transaksjon for en ordre
+  GET	        /api/transactions/{id}	Hent en spesifikk transaksjon (krever tilgang)
+  PUT	        /api/transactions/{id}	Oppdater transaksjonsstatus (kun admin)
 
-- Utvikler
-  Matulan Mahenthra
-  Backend-utvikling, API-design og fullstack-integrasjon
-  📧 matulan.mahenthra@gmail.com
+### Databasestruktur (MySQL)
+  Tabeller
+  - Users
+    - Id, Email, PasswordHash, Role
+  
+  - Orders 
+    - Id, UserId, SellerId, Status, OrderDate, TotalAmount
+  
+  - OrderItems 
+    - Id, OrderId, ProductId, Quantity, Price
+  
+  - Products 
+    - Id, Name, Category, Brand, Price
+
+
+## SignalR (Chat)
+  Hensikt: Sanntidschat mellom kjøper og selger
+  
+  Endepunkt: /chathub
+  
+  Metoder:
+  
+    JoinChat(groupName)
+  
+    SendMessageToGroup(groupName, senderName, message)
+
+    ReceiveMessage (klient)
+

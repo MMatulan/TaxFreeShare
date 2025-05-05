@@ -1,5 +1,7 @@
 ﻿@using Microsoft.AspNetCore.SignalR.Client
+@using TaxFreeShareFrontend3.Helpers
 @inject NavigationManager Navigation
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
 
 @page "/chat"
 
@@ -21,41 +23,81 @@
     <ul class="list-group">
         @foreach (var msg in Messages)
         {
-            <li class="list-group-item">@msg</li>
+        <li class="list-group-item">@msg</li>
         }
     </ul>
 </div>
 
 @code {
-    private HubConnection? hubConnection;
-    private string? Message;
-    private string? Receiver;
-    private List<string> Messages = new();
+private HubConnection? hubConnection;
+private string? Message;
+private string? Receiver;
+private List<string> Messages = new();
+private string? UserEmail;
+private bool IsConnected = false;
 
-    protected override async Task OnInitializedAsync()
+
+protected override async Task OnInitializedAsync()
+{
+Console.WriteLine("Initialiserer chat...");
+
+var token = await LocalStorage.GetItemAsStringAsync("authToken");
+Console.WriteLine($"Token funnet: {token != null}");
+
+UserEmail = TokenHelper.GetEmailFromToken(token);
+Console.WriteLine($"Bruker e-post fra token: {UserEmail}");
+
+hubConnection = new HubConnectionBuilder()
+.WithUrl(Navigation.ToAbsoluteUri("https://localhost:7032/chathub"))
+.Build();
+
+hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+{
+Console.WriteLine($"Mottatt melding fra {user}: {message}");
+Messages.Add($"{user}: {message}");
+InvokeAsync(StateHasChanged);
+});
+
+    try
     {
-        hubConnection = new HubConnectionBuilder()
-            .WithUrl(Navigation.ToAbsoluteUri("https://localhost:7032/chathub"))
-            .Build();
-
-        hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
-        {
-            Messages.Add($"{user}: {message}");
-            InvokeAsync(StateHasChanged);
-        });
-
         await hubConnection.StartAsync();
-    }
+        Console.WriteLine("Tilkoblet SignalR-hub");
 
+        IsConnected = true;
+        Console.WriteLine("SignalR er tilkoblet!");
+
+        await hubConnection.SendAsync("JoinChat", "matulan-og-selger");
+        Console.WriteLine("Bli med i gruppe 'matulan-og-selger'");
+        }
+            catch (Exception ex)
+        {
+            Console.WriteLine($"Feil ved tilkobling til hub: {ex.Message}");
+        }
+    }
 
     private async Task SendMessage()
     {
-        if (hubConnection is not null)
+        Console.WriteLine($"Receiver: {Receiver}");
+        Console.WriteLine($"Message: {Message}");
+        Console.WriteLine($"HubConnection connected: {hubConnection?.State}");
+        
+        if (!IsConnected || string.IsNullOrWhiteSpace(Message) || string.IsNullOrWhiteSpace(Receiver))
         {
-            var sender = "Matulan"; // Senere: hent fra token!
-            await hubConnection.SendAsync("SendMessage", sender, Receiver, Message);
+            Console.WriteLine("Mangler melding, mottaker eller tilkobling");
+            return;
+        }
+
+        try
+        {
+            var sender = UserEmail ?? "Ukjent";
+            Console.WriteLine($"Sender melding til gruppe '{Receiver}': {Message}");
+            await hubConnection.SendAsync("SendMessageToGroup", Receiver, sender, Message);
             Messages.Add($"Du: {Message}");
             Message = string.Empty;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Feil ved sending: {ex.Message}");
         }
     }
 }

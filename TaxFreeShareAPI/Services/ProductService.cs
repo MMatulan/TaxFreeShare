@@ -31,12 +31,11 @@ public class ProductService
                 string line = sr.ReadLine();
                 lineNo++;
 
-                // Hopp over første linje hvis det er en header
                 if (lineNo == 1) continue;
 
                 string[] values = line.Split(',');
 
-                if (values.Length < 5) // Skal være 5 kolonner pga. Id-kolonnen
+                if (values.Length < 5) 
                 {
                     Console.WriteLine($" Feil format på linje {lineNo}, hoppes over.");
                     continue;
@@ -44,7 +43,6 @@ public class ProductService
 
                 try
                 {
-                    // Hopp over Id-kolonnen (values[0]) og hent riktige verdier
                     string name = values[1].Trim();
                     string category = values[2].Trim();
                     string brand = values[3].Trim();
@@ -78,11 +76,11 @@ public class ProductService
         {
             _context.Products.AddRange(products);
             await _context.SaveChangesAsync();
-            Console.WriteLine($"✅ {products.Count} produkter importert.");
+            Console.WriteLine($"{products.Count} produkter importert.");
         }
         else
         {
-            Console.WriteLine("⚠ Ingen produkter ble importert. Sjekk CSV-filen for feil.");
+            Console.WriteLine("Ingen produkter ble importert. Sjekk CSV-filen for feil.");
         }
     }
 }

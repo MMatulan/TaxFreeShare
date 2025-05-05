@@ -444,3 +444,4 @@ C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\obj\Debug\net8.0\refint\TaxF
 C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\obj\Debug\net8.0\TaxFreeShareAPI.pdb
 C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\obj\Debug\net8.0\TaxFreeShareAPI.genruntimeconfig.cache
 C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\obj\Debug\net8.0\ref\TaxFreeShareAPI.dll
+C:\Users\Matul\Gokstad\TaxFreeShare\TaxFreeShareAPI\bin\Debug\net8.0\Microsoft.Bcl.Memory.dll
